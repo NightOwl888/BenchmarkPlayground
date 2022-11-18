@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!--<PlatformTarget>x86</PlatformTarget>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
+    <PackageReference Include="J2N" Version="2.0.0" />
+    <PackageReference Include="RandomizedTesting.Generators" Version="2.7.8" />
+    <!--<PackageReference Include="Crc32.NET" Version="1.2.0" />-->
+  </ItemGroup>
+
+</Project>
