@@ -1,9 +1,15 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Order;
+using BenchmarkDotNet.Reports;
+using BenchmarkDotNet.Running;
 using J2N;
 using RandomizedTesting.Generators;
 //using J2N.Numerics;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,9 +18,20 @@ namespace BenchmarkPlayground
 {
     [MemoryDiagnoser]
     [MediumRunJob]
+    //[Config(typeof(Config))]
+    [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     public class BenchmarkArrays
     {
-        public const int Iterations = 100000;
+        //private class Config : ManualConfig
+        //{
+        //    public Config()
+        //    {
+                
+        //    }
+        //}
+
+
+        public const int Iterations = 100;
 
         //public static readonly byte[] ByteArray1 = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
         //public static readonly byte[] ByteArray1_Equal = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
@@ -48,6 +65,38 @@ namespace BenchmarkPlayground
         {
 
         }
+
+
+        //public class CategoryOrderer : IOrderer
+        //{
+        //    public bool SeparateLogicalGroups => true;
+
+        //    public IEnumerable<BenchmarkCase> GetExecutionOrder(ImmutableArray<BenchmarkCase> benchmarksCase)
+        //    {
+        //        return from benchmark in benchmarksCase
+        //               orderby benchmark.
+        //    }
+
+        //    public string GetHighlightGroupKey(BenchmarkCase benchmarkCase)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public string GetLogicalGroupKey(ImmutableArray<BenchmarkCase> allBenchmarksCases, BenchmarkCase benchmarkCase)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public IEnumerable<IGrouping<string, BenchmarkCase>> GetLogicalGroupOrder(IEnumerable<IGrouping<string, BenchmarkCase>> logicalGroups)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public IEnumerable<BenchmarkCase> GetSummaryOrder(ImmutableArray<BenchmarkCase> benchmarksCases, Summary summary)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         ////internal static BigInteger Src = new BigInteger();
 
@@ -371,6 +420,7 @@ namespace BenchmarkPlayground
         // byte
 
         [Benchmark]
+        [BenchmarkCategory("Byte")]
         public void ArrayCopy_Byte_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -380,6 +430,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Byte")]
         public void ArrayCopy_Byte_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -389,6 +440,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Byte")]
         public void ArrayCopy_Byte_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -398,6 +450,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Byte")]
         public void ArrayCopy_Byte_Buffer_BlockCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -407,6 +460,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Byte")]
         public void ArrayCopy_Byte_Buffer_MemoryCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -426,6 +480,7 @@ namespace BenchmarkPlayground
         // int
 
         [Benchmark]
+        [BenchmarkCategory("Int32")]
         public void ArrayCopy_Int32_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -435,6 +490,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int32")]
         public void ArrayCopy_Int32_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -444,6 +500,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int32")]
         public void ArrayCopy_Int32_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -453,6 +510,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int32")]
         public void ArrayCopy_Int32_Buffer_BlockCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -462,6 +520,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int32")]
         public void ArrayCopy_Int32_Buffer_MemoryCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -482,6 +541,7 @@ namespace BenchmarkPlayground
         // long
 
         [Benchmark]
+        [BenchmarkCategory("Int64")]
         public void ArrayCopy_Int64_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -491,6 +551,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int64")]
         public void ArrayCopy_Int64_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -500,6 +561,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int64")]
         public void ArrayCopy_Int64_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -509,6 +571,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Int64")]
         public void ArrayCopy_Int64_Buffer_BlockCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -539,6 +602,7 @@ namespace BenchmarkPlayground
         // char
 
         [Benchmark]
+        [BenchmarkCategory("Span")]
         public void ArrayCopy_Char_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -548,6 +612,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Span")]
         public void ArrayCopy_Char_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -557,6 +622,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Span")]
         public void ArrayCopy_Char_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -566,6 +632,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Span")]
         public void ArrayCopy_Char_Buffer_BlockCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -596,6 +663,7 @@ namespace BenchmarkPlayground
         // string
 #if !NETFRAMEWORK
         [Benchmark]
+        [BenchmarkCategory("String")]
         public void ArrayCopy_String_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -605,6 +673,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("String")]
         public void ArrayCopy_String_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -615,6 +684,7 @@ namespace BenchmarkPlayground
 #endif
 
         [Benchmark]
+        [BenchmarkCategory("String")]
         public void ArrayCopy_String_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -666,6 +736,7 @@ namespace BenchmarkPlayground
 
 #if !NETFRAMEWORK
         [Benchmark]
+        [BenchmarkCategory("Object")]
         public void ArrayCopy_Object_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -675,6 +746,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
+        [BenchmarkCategory("Object")]
         public void ArrayCopy_Object_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -685,6 +757,7 @@ namespace BenchmarkPlayground
 #endif
 
         [Benchmark]
+        [BenchmarkCategory("Object")]
         public void ArrayCopy_Obj_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
