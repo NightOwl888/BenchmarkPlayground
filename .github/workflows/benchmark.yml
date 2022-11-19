@@ -54,10 +54,12 @@ jobs:
         shell: pwsh
       - run: dotnet publish ${{env.project_path}} --configuration ${{matrix.configuration}} --framework ${{matrix.framework}}
       - run: './src/BenchmarkPlayground/bin/${{matrix.configuration}}/${{matrix.framework}}/publish/BenchmarkPlayground'
+      - run: cd ..;dir -r  | Where-Object {$_.PsIsContainer -eq $false} | % { $_.FullName }
+        shell: pwsh
       # upload reports as build artifacts
       - name: Upload Benchmark Artifacts
         uses: actions/upload-artifact@v2
         if: ${{always()}}
         with:
           name: '${{env.benchmark_results_artifact_name}}'
-          path: '${{github.workspace}}/src/BenchmarkPlayground/bin/${{matrix.configuration}}/${{matrix.framework}}/publish/BenchmarkDotNet.Artifacts'
+          path: './src/BenchmarkPlayground/bin/${{matrix.configuration}}/${{matrix.framework}}/publish/BenchmarkDotNet.Artifacts'
