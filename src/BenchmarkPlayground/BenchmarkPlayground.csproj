@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
     <PackageReference Include="J2N" Version="2.0.0" />
     <PackageReference Include="RandomizedTesting.Generators" Version="2.7.8" />
     <!--<PackageReference Include="Crc32.NET" Version="1.2.0" />-->
