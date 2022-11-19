@@ -31,7 +31,7 @@ namespace BenchmarkPlayground
         //}
 
 
-        public const int Iterations = 1000000;
+        public const int Iterations = 6000000;
 
         //public static readonly byte[] ByteArray1 = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
         //public static readonly byte[] ByteArray1_Equal = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
