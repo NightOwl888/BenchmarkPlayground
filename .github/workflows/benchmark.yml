@@ -60,4 +60,4 @@ jobs:
         if: ${{always()}}
         with:
           name: '${{env.benchmark_results_artifact_name}}'
-          path: '${{github.workspace}}/src/BenchmarkPlayground/bin/${{matrix.configuration}}/${{matrix.framework}}/publish/BenchmarkDotNet.Artifacts/'
+          path: '${{github.workspace}}/src/BenchmarkPlayground/bin/${{matrix.configuration}}/${{matrix.framework}}/publish/BenchmarkDotNet.Artifacts'
