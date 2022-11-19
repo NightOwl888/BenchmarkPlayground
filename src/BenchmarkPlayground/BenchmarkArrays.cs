@@ -26,12 +26,12 @@ namespace BenchmarkPlayground
         //{
         //    public Config()
         //    {
-                
+
         //    }
         //}
 
 
-        public const int Iterations = 6000000;
+        public const int Iterations = 15000000;
 
         //public static readonly byte[] ByteArray1 = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
         //public static readonly byte[] ByteArray1_Equal = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
@@ -580,29 +580,30 @@ namespace BenchmarkPlayground
             }
         }
 
-        // Doubt this works on 32 bit
-        //[Benchmark]
-        //public void ArrayCopy_Int64_Buffer_MemoryCopy()
-        //{
-        //    for (int i = 0; i < Iterations; i++)
-        //    {
-        //        unsafe
-        //        {
-        //            fixed (long* srcPtr = &Int64Array[0], destPtr = &DestInt64Array[0])
-        //            {
-        //                byte* dest = destPtr;
-        //                byte* src = srcPtr;
-        //                long byteLength = Int64Array.Length * sizeof(long);
-        //                Buffer.MemoryCopy(src, dest, byteLength, byteLength);
-        //            }
-        //        }
-        //    }
-        //}
+        [Benchmark]
+        [BenchmarkCategory("Int64")]
+        public void ArrayCopy_Int64_Buffer_MemoryCopy()
+        {
+            for (int i = 0; i < Iterations; i++)
+            {
+                unsafe
+                {
+                    fixed (long* srcPtr = &Int64Array[0], destPtr = &DestInt64Array[0])
+                    {
+                        long* dest = destPtr;
+                        long* src = srcPtr;
+                        long destinationSizeInBytes = DestInt64Array.Length  * sizeof(long);
+                        long sourcebytesToCopy = Int64Array.Length * sizeof(long);
+                        Buffer.MemoryCopy(src, dest, destinationSizeInBytes, sourcebytesToCopy);
+                    }
+                }
+            }
+        }
 
         // char
 
         [Benchmark]
-        [BenchmarkCategory("Span")]
+        [BenchmarkCategory("Char")]
         public void ArrayCopy_Char_Span_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -612,7 +613,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
-        [BenchmarkCategory("Span")]
+        [BenchmarkCategory("Char")]
         public void ArrayCopy_Char_Memory_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -622,7 +623,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
-        [BenchmarkCategory("Span")]
+        [BenchmarkCategory("Char")]
         public void ArrayCopy_Char_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -632,7 +633,7 @@ namespace BenchmarkPlayground
         }
 
         [Benchmark]
-        [BenchmarkCategory("Span")]
+        [BenchmarkCategory("Char")]
         public void ArrayCopy_Char_Buffer_BlockCopy()
         {
             for (int i = 0; i < Iterations; i++)
@@ -641,23 +642,25 @@ namespace BenchmarkPlayground
             }
         }
 
-        //[Benchmark]
-        //public void ArrayCopy_Int32_Buffer_MemoryCopy()
-        //{
-        //    for (int i = 0; i < Iterations; i++)
-        //    {
-        //        unsafe
-        //        {
-        //            fixed (byte* srcPtr = (byte*)&CharArray[0], destPtr = &DestCharArray[0])
-        //            {
-        //                byte* dest = destPtr;
-        //                byte* src = srcPtr;
-        //                long byteLength = CharArray.Length * sizeof(char);
-        //                Buffer.MemoryCopy(src, dest, byteLength, byteLength);
-        //            }
-        //        }
-        //    }
-        //}
+        [Benchmark]
+        [BenchmarkCategory("Char")]
+        public void ArrayCopy_Char_Buffer_MemoryCopy()
+        {
+            for (int i = 0; i < Iterations; i++)
+            {
+                unsafe
+                {
+                    fixed (char* srcPtr = &CharArray[0], destPtr = &DestCharArray[0])
+                    {
+                        char* dest = destPtr;
+                        char* src = srcPtr;
+                        long destinationSizeInBytes = DestCharArray.Length * sizeof(char);
+                        long sourceBytesToCopy = CharArray.Length * sizeof(char);
+                        Buffer.MemoryCopy(src, dest, destinationSizeInBytes, sourceBytesToCopy);
+                    }
+                }
+            }
+        }
 
 
         // string
@@ -693,31 +696,26 @@ namespace BenchmarkPlayground
             }
         }
 
+        // This only works on primitive types
         //[Benchmark]
+        //[BenchmarkCategory("String")]
         //public void ArrayCopy_String_Buffer_BlockCopy()
         //{
         //    for (int i = 0; i < Iterations; i++)
         //    {
-        //        Buffer.BlockCopy(StringArray, 0, DestStringArray, 0, StringArray.Length * sizeof(string));
+        //        Buffer.BlockCopy(StringArray, 0, DestStringArray, 0, StringArray.Length * IntPtr.Size);
         //    }
         //}
 
-        //[Benchmark]
-        //public void ArrayCopy_String_Buffer_MemoryCopy()
-        //{
-        //    for (int i = 0; i < Iterations; i++)
-        //    {
-        //        unsafe
-        //        {
-        //            fixed (byte* srcPtr = (byte*)&StringArray[0], destPtr = &DestStringArray[0])
-        //            {
-        //                byte* dest = destPtr;
-        //                byte* src = srcPtr;
-        //                Buffer.MemoryCopy(src, dest, DestStringArray.Length * sizeof(string), StringArray.Length * sizeof(string));
-        //            }
-        //        }
-        //    }
-        //}
+        [Benchmark]
+        [BenchmarkCategory("String")]
+        public void ArrayCopy_String_Buffer_MemoryCopy()
+        {
+            for (int i = 0; i < Iterations; i++)
+            {
+                ObjectCopier<string>.Instance.Copy(StringArray, 0, DestStringArray, 0, StringArray.Length);
+            }
+        }
 
         //[Benchmark]
         //public void ArrayCopy_String_ForLoop()
@@ -758,7 +756,7 @@ namespace BenchmarkPlayground
 
         [Benchmark]
         [BenchmarkCategory("Object")]
-        public void ArrayCopy_Obj_Array_Copy()
+        public void ArrayCopy_Object_Array_Copy()
         {
             for (int i = 0; i < Iterations; i++)
             {
@@ -766,31 +764,25 @@ namespace BenchmarkPlayground
             }
         }
 
-        //[Benchmark]
-        //public void ArrayCopy_Obj_Buffer_BlockCopy()
-        //{
-        //    for (int i = 0; i < Iterations; i++)
-        //    {
-        //        Buffer.BlockCopy(ObjectArray, 0, DestObjectArray, 0, ObjectArray.Length * sizeof(MyClass));
-        //    }
-        //}
+        [Benchmark]
+        [BenchmarkCategory("Object")]
+        public void ArrayCopy_Object_Buffer_BlockCopy()
+        {
+            for (int i = 0; i < Iterations; i++)
+            {
+                Buffer.BlockCopy(ObjectArray, 0, DestObjectArray, 0, ObjectArray.Length * IntPtr.Size);
+            }
+        }
 
-        //[Benchmark]
-        //public void ArrayCopy_Int32_Buffer_MemoryCopy()
-        //{
-        //    for (int i = 0; i < Iterations; i++)
-        //    {
-        //        unsafe
-        //        {
-        //            fixed (byte* srcPtr = (byte*)&ObjectArray[0], destPtr = &DestObjectArray[0])
-        //            {
-        //                byte* dest = destPtr;
-        //                byte* src = srcPtr;
-        //                Buffer.MemoryCopy(src, dest, DestObjectArray.Length * sizeof(MyClass), ObjectArray.Length * sizeof(MyClass));
-        //            }
-        //        }
-        //    }
-        //}
+        [Benchmark]
+        [BenchmarkCategory("Object")]
+        public void ArrayCopy_Object_Buffer_MemoryCopy()
+        {
+            for (int i = 0; i < Iterations; i++)
+            {
+                ObjectCopier<MyClass>.Instance.Copy(ObjectArray, 0, DestObjectArray, 0, ObjectArray.Length);
+            }
+        }
 
         //[Benchmark]
         //public void ArrayCopy_Obj_ForLoop()
@@ -804,6 +796,36 @@ namespace BenchmarkPlayground
         //    }
         //}
 
+
+        private class ObjectCopier<T>
+        {
+            public static readonly IArrayCopier<T> Instance = new ObjectBufferMemoryCopyArrayCopier<T>();
+        }
+
+        private interface IArrayCopier<T>
+        {
+            void Copy(T[] sourceArray, int sourceIndex, T[] destinationArray, int destinationIndex, int length);
+        }
+
+        private class ObjectBufferMemoryCopyArrayCopier<T> : IArrayCopier<T>
+        {
+            public void Copy(T[] sourceArray, int sourceIndex, T[] destinationArray, int destinationIndex, int length)
+            {
+                unsafe
+                {
+                    fixed (T* srcPtr = &sourceArray[0], destPtr = &destinationArray[0])
+                    {
+                        T* dest = destPtr;
+                        T* src = srcPtr;
+                        src += sourceIndex;
+                        dest += destinationIndex;
+                        long destinationSizeInBytes = destinationArray.Length * IntPtr.Size;
+                        long sourceBytesToCopy = length * IntPtr.Size;
+                        Buffer.MemoryCopy(src, dest, destinationSizeInBytes, sourceBytesToCopy);
+                    }
+                }
+            }
+        }
 
 
         // Fastest speeds
