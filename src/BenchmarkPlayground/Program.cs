@@ -10,8 +10,9 @@ namespace BenchmarkPlayground
             //int[] foo = new int[5];
 
             //new BenchmarkSwitcher(typeof(Program).GetTypeInfo().Assembly).Run(args);
-            BenchmarkRunner.Run<BenchmarkArrays>();
+            //BenchmarkRunner.Run<BenchmarkArrays>();
             //BenchmarkRunner.Run<BenchmarkStringCasing>();
+            BenchmarkRunner.Run<BenchmarkArrayResize>();
 
 #if DEBUG
             Console.ReadKey();
