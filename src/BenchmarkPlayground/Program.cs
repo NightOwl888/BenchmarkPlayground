@@ -12,7 +12,7 @@ namespace BenchmarkPlayground
             //new BenchmarkSwitcher(typeof(Program).GetTypeInfo().Assembly).Run(args);
             //BenchmarkRunner.Run<BenchmarkArrays>();
             //BenchmarkRunner.Run<BenchmarkStringCasing>();
-            BenchmarkRunner.Run<BenchmarkArrayResize>();
+            BenchmarkRunner.Run<BenchmarkStringBuilderIndexing>();
 
 #if DEBUG
             Console.ReadKey();
